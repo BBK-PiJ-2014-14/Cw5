@@ -4,61 +4,66 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class QuizImpl extends UnicastRemoteObject implements Quiz {
 
+public class QuizImpl extends UnicastRemoteObject implements Quiz {
+	private static int idProducer;
+	
+	private int id;
+	private String name;
+	private List<Question> questions;
+	private String winner;
+	private int highestScore;
+
+	
 	public QuizImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public int setQuiz(String name, List<Question> questions)
-			throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-
+	public int setQuiz(String name, List<Question> questions) throws RemoteException {
+		this.name = name;
+		this.questions = questions;
+		this.id = idProducer;
+		QuizImpl.idProducer++;
+		return id;
 	}
 
 	@Override
 	public String getName() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	public int getId() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	@Override
 	public Question getQuestion(int index) throws RemoteException, IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		return questions.get(index);
 	}
 
 	@Override
 	public int getNumOfQuestions() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		return questions.size();
 	}
 
 	@Override
-	public void setWinner(String name, int Scores) throws RemoteException {
-		// TODO Auto-generated method stub
-
+	public void setWinner(String name, int score) throws RemoteException {
+		if(score > highestScore) {
+			highestScore = score;
+			winner = name;
+		}
 	}
 
 	@Override
 	public String getWinner() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return winner;
 	}
 
 	@Override
 	public int getHighestScore() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		return highestScore;
 	}
 
 }

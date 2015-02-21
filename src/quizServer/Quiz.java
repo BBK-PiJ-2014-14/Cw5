@@ -58,7 +58,7 @@ public interface Quiz extends Remote, Serializable {
 	 * @param Scores the score of the winner.
 	 * @throws RemoteException
 	 */
-	public void setWinner(String name, int Scores) throws RemoteException;
+	public void setWinner(String name, int score) throws RemoteException;
 	
 	/**
 	 * This method return the name of the winner.

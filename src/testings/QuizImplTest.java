@@ -90,9 +90,13 @@ public class QuizImplTest {
 
 	@Test
 	public void testGetNumOfQuestions() throws RemoteException {
-		assertEquals(quiz.getNumOfQuestions(), 0);
 		quiz.setQuiz(name, questions);
 		assertEquals(quiz.getNumOfQuestions(), 2);
+		Question q3 = q1;
+		questions.add(q3);
+		quiz.setQuiz("NewQuiz", questions);
+		assertEquals(quiz.getNumOfQuestions(), 3);
+		
 	}
 
 	@Test
