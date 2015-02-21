@@ -17,9 +17,10 @@ public interface Quiz extends Remote, Serializable {
 	 * This method set the name and the questions of the quiz.
 	 * @param name - this is the name of the quiz
 	 * @param questions - this is a list of the questions of the quiz. 
+	 * @return the id that set to this quiz.
 	 * @throws RemoteException
 	 */
-	public void setQuiz(String name, List<Question> questions) throws RemoteException;
+	public int setQuiz(String name, List<Question> questions) throws RemoteException;
 	
 	/**
 	 * This method return the name of the quiz.
@@ -40,8 +41,9 @@ public interface Quiz extends Remote, Serializable {
 	 * @param index this is the index of the question in the list of the questions.
 	 * @return the question of the quiz in the index number.
 	 * @throws RemoteException
+	 * @throws IndexOutOfBoundsException if there is no question in that index.
 	 */
-	public Question getQuestion(int index) throws RemoteException;
+	public Question getQuestion(int index) throws RemoteException, IndexOutOfBoundsException;
 	
 	/**
 	 * This method return the number of questions in the quiz.

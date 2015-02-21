@@ -6,15 +6,16 @@ import java.util.List;
 
 public class QuizImpl extends UnicastRemoteObject implements Quiz {
 
-	protected QuizImpl() throws RemoteException {
+	public QuizImpl() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void setQuiz(String name, List<Question> questions)
+	public int setQuiz(String name, List<Question> questions)
 			throws RemoteException {
 		// TODO Auto-generated method stub
+		return 0;
 
 	}
 
@@ -31,7 +32,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	}
 
 	@Override
-	public Question getQuestion(int index) throws RemoteException {
+	public Question getQuestion(int index) throws RemoteException, IndexOutOfBoundsException {
 		// TODO Auto-generated method stub
 		return null;
 	}
