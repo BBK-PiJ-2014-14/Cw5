@@ -2,42 +2,59 @@ package quizServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QuizerImpl extends UnicastRemoteObject implements Quizer {
+	List<Quiz> quizzes;
 
 	public QuizerImpl() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
+		quizzes = new LinkedList<Quiz>();
 	}
 
 	@Override
 	public boolean addQuiz(Quiz quiz) throws RemoteException {
-		
-		return false;
+		return quizzes.add(quiz);
 	}
 
 	@Override
 	public String[] getQuizList() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		String[] result = new String[quizzes.size()];
+		for(int i=0; i<quizzes.size(); i++) {
+			result[i] = quizzes.get(i).getName();
+		}
+		return result;
 	}
 
 	@Override
 	public boolean removeQuiz(int id) throws RemoteException, NoSuchElementException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			return quizzes.remove(getQuiz(id));
+		} catch (NullPointerException e) {
+			throw new NoSuchElementException();
+		}
 	}
 
 	@Override
-	public Quiz getQuiz(String name) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Quiz> getQuiz(String name) throws RemoteException {
+		List<Quiz> result = new LinkedList<Quiz>();
+		for(Quiz a : quizzes) {
+			if(a.getName() == name) {
+				result.add(a);
+			}
+		}
+		return result;	
 	}
 
 	@Override
 	public Quiz getQuiz(int id) throws RemoteException {
-		// TODO Auto-generated method stub
+		for(Quiz a : quizzes) {
+			if (a.getId() == id) {
+				return a;	
+			}
+		}
 		return null;
 	}
 

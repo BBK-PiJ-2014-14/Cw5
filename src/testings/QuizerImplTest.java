@@ -28,9 +28,11 @@ public class QuizerImplTest {
 	public void creator() throws RemoteException {
 		q = new QuestionImpl();
 		q.setQuestion("q", "a1", "a2", "a3", "a4", 1);getClass();
-		q1 = new QuizImpl();
 		questions = new LinkedList<Question>();
+		questions.add(q);
+		q1 = new QuizImpl();
 		q1.setQuiz("q1", questions);
+		q2 = new QuizImpl();
 		q2.setQuiz("q2", questions);
 		quizer = new QuizerImpl();
 	}
@@ -38,14 +40,14 @@ public class QuizerImplTest {
 	@Test
 	public void testAddQuiz() throws RemoteException {
 		quizer.addQuiz(q1);
-		assertEquals(quizer.getQuiz("q1"), q1);
+		assertEquals(quizer.getQuiz("q1").get(0), q1);
 		assertEquals(quizer.getQuiz(q1.getId()),q1);
 		assertEquals(quizer.getQuizList().length, 1);
 		quizer.addQuiz(q2);
-		assertEquals(quizer.getQuiz("q2"), q2);
+		assertEquals(quizer.getQuiz("q2").get(0), q2);
 		assertEquals(quizer.getQuiz(q2.getId()),q2);
 		assertEquals(quizer.getQuizList().length, 2);
-		assertEquals(quizer.getQuiz("q1"), q1);
+		assertEquals(quizer.getQuiz("q1").get(0), q1);
 		assertEquals(quizer.getQuiz(q1.getId()),q1);	
 	}
 
@@ -78,22 +80,26 @@ public class QuizerImplTest {
 	@Test
 	public void testGetQuizString() throws RemoteException {
 		quizer.addQuiz(q1);
-		assertEquals(quizer.getQuiz("q1"), q1.getName());
+		assertEquals(quizer.getQuiz("q1").get(0).getName(), q1.getName());
 		quizer.addQuiz(q2);
-		assertEquals(quizer.getQuiz("q2"), q2.getName());
-		assertEquals(quizer.getQuiz("q1"), q1.getName());
-		Quiz q = quizer.getQuiz("NoSuchQuiz");
-		assertNull(q);
+		assertEquals(quizer.getQuiz("q2").get(0).getName(), q2.getName());
+		assertEquals(quizer.getQuiz("q1").get(0).getName(), q1.getName());
+		Quiz newQuiz = new QuizImpl();
+		newQuiz.setQuiz("q1", questions);
+		quizer.addQuiz(newQuiz);
+		assertEquals(quizer.getQuiz("q1").size(), 2);
+		List<Quiz> q = quizer.getQuiz("NoSuchQuiz");
+		assertTrue(q.isEmpty());
 	}
 
 	@Test
 	public void testGetQuizInt() throws RemoteException {
 		assertNull(quizer.getQuiz(55));
 		quizer.addQuiz(q1);
-		assertEquals(quizer.getQuiz(q1.getId()), q1.getId());
+		assertEquals(quizer.getQuiz(q1.getId()).getId(), q1.getId());
 		quizer.addQuiz(q2);
-		assertEquals(quizer.getQuiz(q2.getId()), q2.getId());
-		assertEquals(quizer.getQuiz(q1.getId()), q1.getId());	
+		assertEquals(quizer.getQuiz(q2.getId()).getId(), q2.getId());
+		assertEquals(quizer.getQuiz(q1.getId()).getId(), q1.getId());	
 	}
 
 }

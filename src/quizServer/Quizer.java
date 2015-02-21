@@ -3,6 +3,7 @@ package quizServer;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -40,10 +41,10 @@ public interface Quizer extends Remote, Serializable {
 	/**
 	 * This method return the quiz which has the parm name.
 	 * @param name the name of the quiz to be return.
-	 * @return the quiz with the parm name or null if there is no.
+	 * @return a list of quizzes with the parm name. Should be empty if there are no quizzes.
 	 * @throws RemoteException
 	 */
-	public Quiz getQuiz(String name) throws RemoteException;
+	public List<Quiz> getQuiz(String name) throws RemoteException;
 	
 	/**
 	 * This method return the quiz which has the parm id.
