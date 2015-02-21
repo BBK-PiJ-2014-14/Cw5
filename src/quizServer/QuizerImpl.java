@@ -2,17 +2,18 @@ package quizServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.NoSuchElementException;
 
 public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 
-	protected QuizerImpl() throws RemoteException {
+	public QuizerImpl() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean addQuiz(Quiz quiz) throws RemoteException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -23,7 +24,7 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 	}
 
 	@Override
-	public boolean removeQuiz(int id) throws RemoteException {
+	public boolean removeQuiz(int id) throws RemoteException, NoSuchElementException {
 		// TODO Auto-generated method stub
 		return false;
 	}

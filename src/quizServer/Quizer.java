@@ -3,6 +3,7 @@ package quizServer;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.NoSuchElementException;
 
 /**
  * 
@@ -22,7 +23,7 @@ public interface Quizer extends Remote, Serializable {
 	
 	/**
 	 * This method returns an array containing the names of the available quizzes in the quizer.
-	 * @return an array containing the names of the available quizzes in the quizer.
+	 * @return an array containing the names of the available quizzes in the quizer. Should be empty if there are no.
 	 * @throws RemoteException
 	 */
 	public String[] getQuizList() throws RemoteException;
@@ -32,13 +33,14 @@ public interface Quizer extends Remote, Serializable {
 	 * @param id the id of the quiz to be removed.
 	 * @return true if the quiz removed, false if not.
 	 * @throws RemoteException
+	 * @throws NoSuchElementException if there is no quiz with this id.
 	 */
-	public boolean removeQuiz(int id) throws RemoteException;
+	public boolean removeQuiz(int id) throws RemoteException, NoSuchElementException;
 	
 	/**
 	 * This method return the quiz which has the parm name.
 	 * @param name the name of the quiz to be return.
-	 * @return the quiz with the parm name.
+	 * @return the quiz with the parm name or null if there is no.
 	 * @throws RemoteException
 	 */
 	public Quiz getQuiz(String name) throws RemoteException;
@@ -46,7 +48,7 @@ public interface Quizer extends Remote, Serializable {
 	/**
 	 * This method return the quiz which has the parm id.
 	 * @param id the id of the quiz to be returned.
-	 * @return the quiz with the parm id.
+	 * @return the quiz with the parm id or null if there is no.
 	 * @throws RemoteException
 	 */
 	public Quiz getQuiz(int id) throws RemoteException;
