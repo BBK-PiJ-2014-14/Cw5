@@ -48,6 +48,11 @@ public class QuestionImplTest {
 		assertEquals(question.getAnswers()[2], a3);
 		assertEquals(question.getAnswers()[3], a4);
 		assertEquals(question.getRightAns(),r);
+		r = 6;
+		try {
+			question.setQuestion(q, a1, a2, a3, a4, r);
+		} catch (IndexOutOfBoundsException e) {}
+		assertNotSame(question.getRightAns(),r);
 	}
 
 	@Test

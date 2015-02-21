@@ -20,10 +20,11 @@ public interface Question extends Remote, Serializable {
 	 * @param a2 this is the second answer.
 	 * @param a3 this is the third answer.
 	 * @param a4 this is the forth answer.
-	 * @param r this is the number of correct answer.
+	 * @param r this is the number of correct answer, must be between 1-4.
 	 * @throws RemoteException
+	 * @throws IndexOutOfBoundsException if r -s not between 1-4
 	 */
-	public void setQuestion(String q, String a1, String a2, String a3, String a4, int r) throws RemoteException;
+	public void setQuestion(String q, String a1, String a2, String a3, String a4, int r) throws RemoteException, IndexOutOfBoundsException;
 	
 	/**
 	 * This method return a string of the question.
