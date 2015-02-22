@@ -40,14 +40,14 @@ public class QuizerImplTest {
 	@Test
 	public void testAddQuiz() throws RemoteException {
 		quizer.addQuiz(q1);
-		assertEquals(quizer.getQuiz("q1").get(0), q1);
+		assertEquals(quizer.getQuiz("q1"), q1);
 		assertEquals(quizer.getQuiz(q1.getId()),q1);
 		assertEquals(quizer.getQuizList().length, 1);
 		quizer.addQuiz(q2);
-		assertEquals(quizer.getQuiz("q2").get(0), q2);
+		assertEquals(quizer.getQuiz("q2"), q2);
 		assertEquals(quizer.getQuiz(q2.getId()),q2);
 		assertEquals(quizer.getQuizList().length, 2);
-		assertEquals(quizer.getQuiz("q1").get(0), q1);
+		assertEquals(quizer.getQuiz("q1"), q1);
 		assertEquals(quizer.getQuiz(q1.getId()),q1);	
 	}
 
@@ -80,16 +80,10 @@ public class QuizerImplTest {
 	@Test
 	public void testGetQuizString() throws RemoteException {
 		quizer.addQuiz(q1);
-		assertEquals(quizer.getQuiz("q1").get(0).getName(), q1.getName());
+		assertEquals(quizer.getQuiz("q1").getName(), q1.getName());
 		quizer.addQuiz(q2);
-		assertEquals(quizer.getQuiz("q2").get(0).getName(), q2.getName());
-		assertEquals(quizer.getQuiz("q1").get(0).getName(), q1.getName());
-		Quiz newQuiz = new QuizImpl();
-		newQuiz.setQuiz("q1", questions);
-		quizer.addQuiz(newQuiz);
-		assertEquals(quizer.getQuiz("q1").size(), 2);
-		List<Quiz> q = quizer.getQuiz("NoSuchQuiz");
-		assertTrue(q.isEmpty());
+		assertEquals(quizer.getQuiz("q2").getName(), q2.getName());
+		assertEquals(quizer.getQuiz("q1").getName(), q1.getName());
 	}
 
 	@Test

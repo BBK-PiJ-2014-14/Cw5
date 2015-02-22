@@ -16,7 +16,11 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 
 	@Override
 	public boolean addQuiz(Quiz quiz) throws RemoteException {
-		
+		for(String s : getQuizList()) {
+			if(s == quiz.getName()) {
+				return false;
+			}
+		}
 		return quizzes.add(quiz);
 	}
 
@@ -39,14 +43,13 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 	}
 
 	@Override
-	public List<Quiz> getQuiz(String name) throws RemoteException {
-		List<Quiz> result = new LinkedList<Quiz>();
+	public Quiz getQuiz(String name) throws RemoteException {
 		for(Quiz a : quizzes) {
 			if(a.getName() == name) {
-				result.add(a);
+				return a;
 			}
 		}
-		return result;	
+		return null;	
 	}
 
 	@Override

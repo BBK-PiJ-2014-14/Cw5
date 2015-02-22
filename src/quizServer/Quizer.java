@@ -41,10 +41,10 @@ public interface Quizer extends Remote, Serializable {
 	/**
 	 * This method return the quiz which has the parm name.
 	 * @param name the name of the quiz to be return.
-	 * @return a list of quizzes with the parm name. Should be empty if there are no quizzes.
+	 * @return the quiz with the parm name or null if there is such a quiz.
 	 * @throws RemoteException
 	 */
-	public List<Quiz> getQuiz(String name) throws RemoteException;
+	public Quiz getQuiz(String name) throws RemoteException;
 	
 	/**
 	 * This method return the quiz which has the parm id.
