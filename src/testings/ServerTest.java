@@ -12,11 +12,13 @@ import org.junit.Test;
 import quizServer.Question;
 import quizServer.Quiz;
 import quizServer.Quizer;
+import quizServer.Server;
 
 public class ServerTest {
 
 	@Test
 	public void testServerRegister() throws RemoteException {
+		Server.main(new String[0]);
 		Registry reg = LocateRegistry.getRegistry(1099);
 		Question question = null;
 		Quiz quiz = null;
