@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
  * 
  * @author Noam
  * This is the class of the server.
- * This server upload 3 remote objects: QuestionImpl, QuizImpl, and QuizerImpl.
+ * This server upload the remote object QuizerImpl.
  */
 public class Server {
 	
@@ -24,14 +24,12 @@ public class Server {
 	}
 	
 	/**
-	 * this method register the server and upload it's remote objects.
+	 * this method register the server and upload it's remote object.
 	 */
 	public void serverRegister() {
 		try {
 			Registry reg = LocateRegistry.createRegistry(1099);
 			reg.bind("QuizerImpl", new QuizerImpl());
-			reg.bind("QuestionImpl", new QuestionImpl());
-			reg.bind("QuizImpl", new QuizImpl());
 		} catch (RemoteException | AlreadyBoundException e) {
 			e.printStackTrace();
 		}	

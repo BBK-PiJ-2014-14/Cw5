@@ -53,4 +53,18 @@ public interface Quizer extends Remote, Serializable {
 	 * @throws RemoteException
 	 */
 	public Quiz getQuiz(int id) throws RemoteException;
+	
+	/**
+	 * This method return a new instance of a Question object.
+	 * @return an new Question Object.
+	 * @throws RemoteException
+	 */
+	public Question getNewQuestion() throws RemoteException;
+	
+	/**
+	 * This method return a new instance of a Quiz object.
+	 * @return an new Quiz object.
+	 * @throws RemoteException
+	 */
+	public Quiz getNewQuiz() throws RemoteException;
 }

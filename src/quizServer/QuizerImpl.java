@@ -16,6 +16,7 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 
 	@Override
 	public boolean addQuiz(Quiz quiz) throws RemoteException {
+		
 		return quizzes.add(quiz);
 	}
 
@@ -56,6 +57,16 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Question getNewQuestion() throws RemoteException {
+		return new QuestionImpl();
+	}
+
+	@Override
+	public Quiz getNewQuiz() throws RemoteException {
+		return new QuizImpl();
 	}
 
 }
