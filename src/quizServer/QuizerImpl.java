@@ -7,20 +7,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QuizerImpl extends UnicastRemoteObject implements Quizer {
-	List<Quiz> quizzes;
+	private List<Quiz> quizzes;
 
 	public QuizerImpl() throws RemoteException {
 		super();
-		quizzes = new LinkedList<Quiz>();
+	    quizzes = new LinkedList<Quiz>();
 	}
 
 	@Override
 	public boolean addQuiz(Quiz quiz) throws RemoteException {
-		for(String s : getQuizList()) {
-			if(s == quiz.getName()) {
-				return false;
-			}
-		}
 		return quizzes.add(quiz);
 	}
 
@@ -45,7 +40,7 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 	@Override
 	public Quiz getQuiz(String name) throws RemoteException {
 		for(Quiz a : quizzes) {
-			if(a.getName() == name) {
+			if(a.getName().equals(name)) {
 				return a;
 			}
 		}

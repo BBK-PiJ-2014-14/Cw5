@@ -74,4 +74,10 @@ public interface Quiz extends Remote, Serializable {
 	 * @throws RemoteException
 	 */
 	public int getHighestScore() throws RemoteException;
+	
+	public void setUser() throws RemoteException;
+	
+	public int getUser() throws RemoteException;
+	
+	public void removeUser() throws RemoteException;
 }

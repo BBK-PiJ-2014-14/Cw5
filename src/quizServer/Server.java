@@ -20,13 +20,16 @@ public class Server {
 	 */
 	public static void main(String[] args) {
 		Server server = new Server();
+		System.out.println("Server is uploading...");
 		server.serverRegister();
+		System.out.println("Server uploaded");
 	}
 	
 	/**
 	 * this method register the server and upload it's remote object.
 	 */
-	public void serverRegister() {
+	private void serverRegister() {
+		
 		try {
 			Registry reg = LocateRegistry.createRegistry(1099);
 			reg.bind("QuizerImpl", new QuizerImpl());

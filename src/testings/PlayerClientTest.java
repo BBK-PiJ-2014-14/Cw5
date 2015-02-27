@@ -11,14 +11,5 @@ public class PlayerClientTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testRunPlayer() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testPlay() {
-		fail("Not yet implemented");
-	}
 
 }

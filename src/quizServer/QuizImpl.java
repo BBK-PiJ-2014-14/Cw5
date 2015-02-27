@@ -13,6 +13,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	private List<Question> questions;
 	private String winner;
 	private int highestScore;
+	private int users;
 
 	
 	public QuizImpl() throws RemoteException {
@@ -23,6 +24,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	public int setQuiz(String name, List<Question> questions) throws RemoteException {
 		this.name = name;
 		this.questions = questions;
+		this.users = 0;
 		this.id = idProducer;
 		QuizImpl.idProducer++;
 		return id;
@@ -64,6 +66,15 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	@Override
 	public int getHighestScore() throws RemoteException {
 		return highestScore;
+	}
+	public void setUser() throws RemoteException {
+		this.users++;
+	}
+	public int getUser() throws RemoteException {
+		return users;
+	}
+	public void removeUser() throws RemoteException {
+		this.users--;
 	}
 
 }

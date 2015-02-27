@@ -24,14 +24,10 @@ public class ServerTest {
 		Quiz quiz = null;
 		Quizer quizer = null;
 		try {
-			question = (Question) reg.lookup("QuestionImpl");
-			quiz = (Quiz) reg.lookup("QuizImpl");
 			quizer = (Quizer) reg.lookup("QuizerImpl");
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
-		assertNotNull(question);
-		assertNotNull(quiz);
 		assertNotNull(quizer);
 		
 	}
