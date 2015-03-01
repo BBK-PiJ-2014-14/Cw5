@@ -187,9 +187,14 @@ public class AdminClient extends ClientImpl {
 					System.out.println("Id should contain numbers only");
 				}
 			}
-			System.out.println("Quiz " +toClose.getName()+ " closed!\nThe winner of this quiz is: "+ toClose.getWinner());
-			System.out.println("His score is: "+toClose.getHighestScore()+"\n");
-			getQuizer().removeQuiz(id);
+			if(getQuizer().removeQuiz(id)) {
+				System.out.println("Quiz " +toClose.getName()+ " closed!\nThe winner of this quiz is: "+ toClose.getWinner());
+				System.out.println("His score is: "+toClose.getHighestScore()+"\n");
+			} else {
+				System.out.println("Quiz not found, might closed by someone else, try again");
+			}
+		
+			
 		} catch(RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}

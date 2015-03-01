@@ -25,7 +25,6 @@ public class Server {
 		server.serverRegister();
 		System.out.println("Server uploaded");
 	}
-
 	
 	/**
 	 * this method register the server and upload it's remote object.

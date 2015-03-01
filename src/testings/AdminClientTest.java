@@ -4,13 +4,9 @@ import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,12 +14,21 @@ import quizServer.AdminClient;
 import quizServer.Client;
 import quizServer.Server;
 
+/**
+ * 
+ * @author Noam
+ * This class tests the class AdminClient.
+ * It is uses an InputStream from files instead of the user input.
+ * The files contains all king of input so that the test pass only id the class can deal with illegal input.
+ */
 public class AdminClientTest {
-	InputStream i;
-	Client c;
+	private Client c;
 	
+	/**
+	 * This method turn on the server.
+	 */
 	@Before
-	public void Creator(){
+	public void runServer(){
 		Server.main(new String[0]);
 	}
 	
@@ -41,8 +46,7 @@ public class AdminClientTest {
 	 */
 	@Test
 	public void testRunClient() throws FileNotFoundException, RemoteException, NotBoundException {
-		i = new FileInputStream("./src/testings/test1.txt");
-		c = new AdminClient(i);
+		c = new AdminClient(new FileInputStream("./src/testings/test1.txt"));
 		c.runClient();
 		assertTrue(c.getQuizer().getQuiz("q1").getNumOfQuestions() == 2);
 		assertTrue(c.getQuizer().getQuiz("q1").getQuestion(0).getQuestion().equals("q1"));
@@ -53,15 +57,8 @@ public class AdminClientTest {
 		assertTrue(c.getQuizer().getQuiz("q1").getQuestion(1).getAnswers()[0].equals("1"));
 		assertTrue(c.getQuizer().getQuiz("q1").getQuestion(1).getAnswers()[1].equals("2"));
 		assertTrue(c.getQuizer().getQuiz("q1").getQuestion(1).getRightAns() == 2);
-		i = new FileInputStream("./src/testings/test2.txt");
-		c = new AdminClient(i);
+		c = new AdminClient(new FileInputStream("./src/testings/test2.txt"));
 		c.runClient();
-		assertTrue(c.getQuizer().getQuizList().length == 0);
-		
+		assertTrue(c.getQuizer().getQuizList().length == 0);	
 	}
-	
-	
-
-	
-
 }

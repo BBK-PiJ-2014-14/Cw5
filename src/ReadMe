@@ -1,0 +1,33 @@
+This file contain an explanation of this project
+
+This project contain two packages. one for testings and one for the code .
+
+The testing package has a test class for each class in the code package.
+
+The code package has four interfaces: "Quiz", "Question", "Quizer", and "Client".
+All of them should be on the clients side and all except "Client" should be on the server side.
+The server side should have all the classes that implements his interfaces which are:
+"QuizImpl", QuestionImpl", and "QuizerImpl" plus the class "Server".
+Each client should in addition to the interfaces the class "ClientImpl",
+and at least one of it's extending classes which are: "AdminClient" and "PlayerClient".
+
+The result is a client-server structure which contain a server that has a collection of quizzes,
+with clients that are able to create and close quizzes or clients that are able to play the quizzes.
+
+Known issues:
+1. The server does not keep quizzes when it turn off.
+   It wasn't appeared as a demand in the instructions and due to shorten of time has not been done.
+2. Concurrency: there are different potential problems with this issue:
+   a. The case of client closing a quiz that is played at the same time:
+      At some point I tried to create a flag in the quiz that shows if someone is playing it.
+      There was a problem in case that the player does not finish the quiz and turn off his computer.
+      The result was a quiz that can not be closed and my conclusion was that it's better to close a quiz
+      without waiting for the players to finished. It only results in this players not to be added to the 
+      winner list.
+   b. Case of two clients trying to close the same quiz: this case dealt by the close method.
+   c. Case of two clients try to create quiz with the same name: the system does not allow that and it is
+      dealt by both checking it when the user enter a name and again when the quiz is added to the server.
+   d. All other cases are cases or read/write and since that they can not corrupt the system and they only
+      ends with user getting an error massage as for example in the case of user trying to play a quiz that
+      just been removed from the system while he was choosing a quiz from list.
+   
