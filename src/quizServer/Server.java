@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
  * This server upload the remote object QuizerImpl.
  */
 public class Server {
+	Registry reg;
 	
 	/**
      * Main method of the server, turn on the server.
@@ -24,6 +25,7 @@ public class Server {
 		server.serverRegister();
 		System.out.println("Server uploaded");
 	}
+
 	
 	/**
 	 * this method register the server and upload it's remote object.
@@ -31,7 +33,7 @@ public class Server {
 	private void serverRegister() {
 		
 		try {
-			Registry reg = LocateRegistry.createRegistry(1099);
+			reg = LocateRegistry.createRegistry(1099);
 			reg.bind("QuizerImpl", new QuizerImpl());
 		} catch (RemoteException | AlreadyBoundException e) {
 			e.printStackTrace();
