@@ -23,7 +23,6 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz {
 	public int setQuiz(String name, List<Question> questions) throws RemoteException {
 		this.name = name;
 		this.questions = questions;
-		this.users = 0;
 		this.id = idProducer;
 		QuizImpl.idProducer++;
 		return id;

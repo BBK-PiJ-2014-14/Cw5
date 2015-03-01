@@ -37,6 +37,7 @@ public class AdminClient extends ClientImpl {
 	/**
 	 * This method opens a menu for the user to choose what he would like to do.
 	 */
+	@Override
 	public void runClient() {
 		int choice = 0;
 		System.out.println("Welcome to the quiz administrator");
