@@ -1,37 +1,43 @@
 package quizServer;
 
-import java.rmi.AccessException;
+import java.io.InputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 /**
  * 
  * @author Noam
  *This class is a client class. This client can create and close quizzes on the server.
  */
-public class AdminClient {
-	private Scanner in = new Scanner(System.in);
+public class AdminClient extends ClientImpl {
 	
+	/**
+	 * Constructor from superclass.
+	 * @param input
+	 */
+	public AdminClient(InputStream input){
+		super(input);
+	}
 
 	/**
 	 * Main method, turning on the client.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		AdminClient myClient = new AdminClient();
-		myClient.runAdmin();	
+		Client myClient = new AdminClient(System.in);
+		try {
+			myClient.runClient();
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * This method opens a menu for the user to choose what he would like to do.
 	 */
-	private void runAdmin() {
+	public void runClient() {
 		int choice = 0;
 		System.out.println("Welcome to the quiz administrator");
 		while(choice != 3) {
@@ -39,17 +45,17 @@ public class AdminClient {
 			System.out.println("1. Create a quiz\n2. Close a quiz\n3. Exit");
 			try {
 				choice = Integer.parseInt(in.nextLine());
-				if(choice<1 || choice>3) {
+				if(choice<1 || choice>3) { //check if the input is legal.
 					System.out.println("Invalid input, try again\n" );
 				}
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid input, try again\n");
 			}
 			if(choice==1) {
-				quizCreator();
+				quizCreator();  //create a quiz.
 			}
 			if(choice==2) {
-				quizCloser();
+				quizCloser(); //close a quiz.
 			}		
 		}	
 	}
@@ -59,12 +65,33 @@ public class AdminClient {
 	 */
 	private void quizCreator() {
 		System.out.println("This is a quiz builder, you will now be asked to enter your quiz details");
+		String name = createName(); 
+		List<Question> quizQuestions = createQuestions(); 
+		try {
+			Quiz quiz = getQuizer().getNewQuiz();
+			quiz.setQuiz(name, quizQuestions); //constructing the quiz.
+			if (getQuizer().addQuiz(quiz)) {
+				System.out.println("Thank you, your quiz has been added\nYour quiz id is: " + quiz.getId()+"\n");
+			} else {
+				System.out.println("Something went wrong, please try again");
+			}
+		} catch (RemoteException | NotBoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This method create a name for a new quiz.
+	 * @return The name of the quiz.
+	 */
+	private String createName(){
 		String name = "0";
 		while(name.equals("0")) {
 			System.out.println("Enter a name for the quiz: ");
 			name = in.nextLine();
-			if(name.equals("0")) {
+			if(name.equals("0")|| name.equals("")) {
 				System.out.println("Invalid name"); 
+				name ="0";
 			}
 			try {
 				for(String s : getQuizer().getQuizList()) {
@@ -77,6 +104,14 @@ public class AdminClient {
 				e.printStackTrace();
 			}
 		}
+		return name;
+	}
+	
+	/**
+	 * This method build a list of questions for a new quiz.
+	 * @return A list of question for a new quiz.
+	 */
+	private List<Question> createQuestions() {
 		int numOfQuestions = 0;
 		while (numOfQuestions < 1) {
 			try{
@@ -89,9 +124,8 @@ public class AdminClient {
 				System.out.println("This is not a number");
 			}
 		}
-		List<Question> quizQuestions = new  ArrayList<Question>();
+		List<Question> result = new  ArrayList<Question>();
 		Question question = null;
-		Quiz quiz = null;
 		try {
 			for(int i=1; i<=numOfQuestions; i++) {
 				System.out.println("Enter question "+i+":");
@@ -117,18 +151,14 @@ public class AdminClient {
 					}
 				}
 				question = getQuizer().getNewQuestion();
-				quiz = getQuizer().getNewQuiz();
 				question.setQuestion(qu, a1, a2, a3, a4, r);
-				quizQuestions.add(question);
+				result.add(question);
 			}
-			quiz.setQuiz(name, quizQuestions);
-			getQuizer().addQuiz(quiz);
-			System.out.println("Thank you, your quiz has been added\nYour quiz id is: " + quiz.getId()+"\n");	
-		} catch (RemoteException | IndexOutOfBoundsException | NotBoundException e) {
+		} catch (RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
-	
 		
 	/**
 	 * This method close a quiz according to the input id.
@@ -137,7 +167,7 @@ public class AdminClient {
 		Quiz toClose = null;
 		Integer id = null;
 		try {
-			if(getQuizer().getQuizList().length == 0) {
+			if(getQuizer().getQuizList().length == 0) { //check if there are any quizzes to close.
 				System.out.println("No quizzes to close\n");
 				return;
 			}
@@ -146,7 +176,7 @@ public class AdminClient {
 					System.out.println("Please enter the id of the quiz you wish to close( or -1 to go back): ");
 					id = Integer.parseInt(in.nextLine());
 					if (id == -1) {
-						return;
+						return; //user chose to go back.
 					}
 					toClose = getQuizer().getQuiz(id); // searching for the quiz. 
 					if(toClose == null) {
@@ -156,27 +186,11 @@ public class AdminClient {
 					System.out.println("Id should contain numbers only");
 				}
 			}
-			if(toClose.getUser()>0) {
-				System.out.println("Quiz in use, please try later");
-			} else {
-				System.out.println("Quiz " +toClose.getName()+ " closed!\nThe winner of this quiz is: "+ toClose.getWinner());
-				System.out.println("His score is: "+toClose.getHighestScore()+"\n");
-				getQuizer().removeQuiz(id);
-			}
-		} catch(RemoteException | NoSuchElementException | NotBoundException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Quiz " +toClose.getName()+ " closed!\nThe winner of this quiz is: "+ toClose.getWinner());
+			System.out.println("His score is: "+toClose.getHighestScore()+"\n");
+			getQuizer().removeQuiz(id);
+		} catch(RemoteException | NotBoundException e) {
+			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * This method connect to the server and return the remote object QuizerImpl.
-	 * @return the remote object quizerImpl
-	 * @throws AccessException
-	 * @throws RemoteException
-	 * @throws NotBoundException
-	 */
-	private Quizer getQuizer() throws RemoteException, NotBoundException {
-		Registry reg = LocateRegistry.getRegistry(1099);
-		return (Quizer) reg.lookup("QuizerImpl");
-	}
+	}	
 }

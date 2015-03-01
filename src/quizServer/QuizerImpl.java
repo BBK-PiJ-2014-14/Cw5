@@ -15,7 +15,12 @@ public class QuizerImpl extends UnicastRemoteObject implements Quizer {
 	}
 
 	@Override
-	public boolean addQuiz(Quiz quiz) throws RemoteException {
+	public synchronized boolean addQuiz(Quiz quiz) throws RemoteException {
+		for(String s :getQuizList()) {
+			if(s.equals(quiz.getName())) {
+				return false;
+			}
+		}
 		return quizzes.add(quiz);
 	}
 
